@@ -1,0 +1,27 @@
+name: contaduria
+description: A new Flutter project.
+publish_to: 'none'
+version: 0.1.0
+
+environment:
+  sdk: '>=2.19.6 <3.0.0'
+
+dependencies:
+  data_format: ^0.0.3
+  flutter:
+    sdk: flutter
+  flutter_mailer: ^2.0.2
+  get: ^4.6.6
+  path_provider: ^2.0.14
+  pdf: ^3.10.1
+
+dev_dependencies:
+  flutter_lints: ^2.0.0
+  flutter_test:
+    sdk: flutter
+  syncfusion_flutter_pdfviewer: ^21.1.41
+
+flutter:
+  uses-material-design: true
+  assets:
+    - assets/
