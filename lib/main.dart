@@ -1,4 +1,5 @@
 import 'dart:io';
+import 'package:bounce/bounce.dart';
 import 'package:contaduria/estructuras.dart';
 import 'package:contaduria/funciones.dart';
 import 'package:flutter/material.dart';
@@ -14,7 +15,9 @@ class MainApp extends StatelessWidget {
   Widget build(BuildContext context) {
     return const MaterialApp(
       home: Scaffold(
-          backgroundColor: Color.fromARGB(255, 241, 241, 241), body: Home()),
+        backgroundColor: Color.fromARGB(255, 241, 241, 241),
+        body: Home()
+      ),
     );
   }
 }
@@ -90,41 +93,67 @@ class _HomeState extends State<Home> {
   }
 
   void mostrarHistory()async{
-    await consultaHistorial();
-    setState(() {});
-    // ignore: use_build_context_synchronously
-    Navigator.push(
-      context, 
-      MaterialPageRoute(
-        builder: ((context) {
-          return Scaffold(
-            appBar: AppBar(title: const Text("History"),),
-            body: 
-              ListView.builder(
-                itemCount: listaDocumentos.length,
-                itemBuilder: (context, index) {
-                  return ListTile(
-                    title: Text(listaDocumentos[index]),
-                    onTap: (){
-                      Navigator.push(
-                        context,
-                        MaterialPageRoute(
-                          builder: (context) {
-                            return SfPdfViewer.file(
-                              File("$filePathRaiz/${listaDocumentos[index]}")
+    await consultaHistorial().then(
+      (_) {
+        Navigator.push(
+          context, 
+          MaterialPageRoute(
+            builder: ((context) {
+              return Scaffold(
+                backgroundColor: const Color.fromARGB(255, 241, 241, 241),
+                appBar: AppBar(
+                  backgroundColor: Colors.white,
+                  foregroundColor: Colors.black,
+                  title: const Text("Historial"),
+                ),
+                body: 
+                  ListView.builder(
+                    itemCount: listaDocumentos.length,
+                    itemBuilder: (context, index) {
+                      return 
+                      Bounce(
+                        child: GestureDetector(
+                          onTap: (){
+                            Navigator.push(
+                              context,
+                              MaterialPageRoute(
+                                builder: (context) {
+                                  return SfPdfViewer.file(
+                                    File("$filePathRaiz/${listaDocumentos[index]}")
+                                  );
+                                },
+                              )
                             );
                           },
-                        )
+                          child: Container(
+                            margin: const EdgeInsets.symmetric(
+                              vertical: 5,
+                              horizontal: 20
+                            ),
+                            padding: const EdgeInsets.all(20),
+                            decoration: BoxDecoration(
+                              borderRadius: BorderRadius.circular(20),
+                              color: Colors.white
+                            ),
+                            child: Row(
+                              children: [
+                                const Icon(Icons.history),
+                                const SizedBox(width: 10,),
+                                Text(listaDocumentos[index]),
+                              ],
+                            ),
+                          ),
+                        ),
                       );
                     },
-                  );
-                },
-              )
-          );
-        }
-        )
-      )
-    );
+                  )
+              );
+            }
+            )
+          )
+        );
+      }
+    );   
   }
 
   @override
@@ -142,21 +171,41 @@ class _HomeState extends State<Home> {
           ],
         ),
         AnimatedPositioned(
-          top: 40,
+          top: 50,
           right: mostrarBotonHistory ? -10: -100,
           duration: const Duration(milliseconds: 300),
           curve:Curves.easeInOutBack,
           child:
-            ElevatedButton(
-              style: ElevatedButton.styleFrom(
-                fixedSize:const Size(80,50),
-                elevation: 0,
-                shape:const RoundedRectangleBorder(
-                  borderRadius: BorderRadius.horizontal(left: Radius.circular(20))
+            Bounce(
+              child: ElevatedButton(
+                style: ElevatedButton.styleFrom(
+                  //fixedSize:const Size(80,50),
+                  elevation: 0,
+                  backgroundColor: Colors.blue,
+                  padding: const EdgeInsets.symmetric(
+                    horizontal: 15,
+                    vertical: 10
+                  ),
+                  shape:const RoundedRectangleBorder(
+                    borderRadius: BorderRadius.horizontal(left: Radius.circular(20))
+                  )
+                ),
+                onPressed: (){mostrarHistory();},
+                child: const Column(
+                  children: [
+                    Icon(
+                      Icons.history,
+                      color: Colors.white,
+                    ),
+                    Text(
+                      "Historial",
+                      style: TextStyle(
+                        color: Colors.white,
+                        fontWeight: FontWeight.bold
+                      ),)
+                  ],
                 )
               ),
-              onPressed: (){mostrarHistory();},
-              child: const Icon(Icons.history_rounded)
             )
         )
         
@@ -170,9 +219,9 @@ class _HomeState extends State<Home> {
             SizedBox.expand(
               child: 
               SfPdfViewer.file(
-                  initialScrollOffset: const Offset(50,0),
-                  initialZoomLevel: 1.3,
-                  File(filePath)
+                initialScrollOffset: const Offset(50,0),
+                initialZoomLevel: 1.3,
+                File(filePath)
               ),
             ),
             const Positioned(
@@ -180,6 +229,8 @@ class _HomeState extends State<Home> {
                 right: 10,
                 child: FloatingActionButton(
                   onPressed: compartirPdf,
+                  backgroundColor: Colors.blue,
+                  foregroundColor: Colors.white,
                   child: Icon(Icons.share),
                 )),
           ],

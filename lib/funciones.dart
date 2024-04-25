@@ -1,7 +1,8 @@
 import 'dart:io';
+import 'dart:typed_data';
 import 'package:contaduria/estructuras.dart';
 import 'package:pdf/pdf.dart';
-import 'package:pdf/widgets.dart' as pdfLib;
+import 'package:pdf/widgets.dart' as pdflib;
 import 'package:flutter_mailer/flutter_mailer.dart';
 import 'package:path_provider/path_provider.dart';
 import 'package:pdf/widgets.dart';
@@ -117,52 +118,52 @@ List<Widget> lineas() {
   }
 
   return interfaces.map((e) {
-    return pdfLib.Column(children: [
-      pdfLib.Column(
+    return pdflib.Column(children: [
+      pdflib.Column(
           children: e.datos.map((f) {
         if (f.tipo == "Descuentos en compras") {
           return Column(children: [
-            pdfLib.Row(
+            pdflib.Row(
                 mainAxisAlignment: MainAxisAlignment.spaceBetween,
                 children: [
-                  Text(f.tipo, style: pdfLib.TextStyle(fontSize: sizeText)),
-                  Text(f.precio, style: pdfLib.TextStyle(fontSize: sizeText)),
+                  Text(f.tipo, style: pdflib.TextStyle(fontSize: sizeText)),
+                  Text(f.precio, style: pdflib.TextStyle(fontSize: sizeText)),
                 ]),
-            pdfLib.Row(
+            pdflib.Row(
                 mainAxisAlignment: MainAxisAlignment.spaceBetween,
                 children: [
                   Text("Mercancia disponible para la venta",
-                      style: pdfLib.TextStyle(
+                      style: pdflib.TextStyle(
                           fontSize: sizeText, fontWeight: FontWeight.bold)),
                   Text(obtenerSumatoriaM(),
-                      style: pdfLib.TextStyle(fontSize: sizeText)),
+                      style: pdflib.TextStyle(fontSize: sizeText)),
                 ])
           ]);
         }
         if (f.tipo == "Varios") {
           return Column(children: [
-            pdfLib.Row(
+            pdflib.Row(
                 mainAxisAlignment: MainAxisAlignment.spaceBetween,
                 children: [
-                  Text(f.tipo, style: pdfLib.TextStyle(fontSize: sizeText)),
-                  Text(f.precio, style: pdfLib.TextStyle(fontSize: sizeText)),
+                  Text(f.tipo, style: pdflib.TextStyle(fontSize: sizeText)),
+                  Text(f.precio, style: pdflib.TextStyle(fontSize: sizeText)),
                 ]),
-            pdfLib.Row(
+            pdflib.Row(
                 mainAxisAlignment: MainAxisAlignment.spaceBetween,
                 children: [
                   Text("Ingresos no operacionales",
-                      style: pdfLib.TextStyle(
+                      style: pdflib.TextStyle(
                           fontSize: sizeText, fontWeight: FontWeight.bold)),
                   Text(obtenerSumatoriaIO1(),
-                      style: pdfLib.TextStyle(fontSize: sizeText)),
+                      style: pdflib.TextStyle(fontSize: sizeText)),
                 ]),
           ]);
         }
-        return pdfLib.Row(
+        return pdflib.Row(
             mainAxisAlignment: MainAxisAlignment.spaceBetween,
             children: [
-              Text(f.tipo, style: pdfLib.TextStyle(fontSize: sizeText)),
-              Text(f.precio, style: pdfLib.TextStyle(fontSize: sizeText)),
+              Text(f.tipo, style: pdflib.TextStyle(fontSize: sizeText)),
+              Text(f.precio, style: pdflib.TextStyle(fontSize: sizeText)),
             ]);
       }).toList()),
       //Evitar mostrar estos dos valores, que no contienen información
@@ -171,61 +172,61 @@ List<Widget> lineas() {
             color: e.nombre != "Ingresos no operacionales"
                 ? PdfColors.grey300
                 : PdfColors.white,
-            child: pdfLib.Row(
+            child: pdflib.Row(
                 mainAxisAlignment: MainAxisAlignment.spaceBetween,
                 children: [
                   Text(e.nombre,
-                      style: pdfLib.TextStyle(
+                      style: pdflib.TextStyle(
                           fontSize: sizeText, fontWeight: FontWeight.bold)),
                   Text(obtenerSumatoria(e),
-                      style: pdfLib.TextStyle(fontSize: sizeText))
+                      style: pdflib.TextStyle(fontSize: sizeText))
                 ])),
       SizedBox(height: 10),
       if (e.nombre == "Costos de ventas")
         Container(
           color: PdfColors.grey300,
-          child: pdfLib.Row(
+          child: pdflib.Row(
               mainAxisAlignment: MainAxisAlignment.spaceBetween,
               children: [
                 Text("Utilidad en operación",
-                    style: pdfLib.TextStyle(
+                    style: pdflib.TextStyle(
                         fontSize: sizeText, fontWeight: FontWeight.bold)),
                 Text(obtenerUtilidadO(),
-                    style: pdfLib.TextStyle(fontSize: sizeText))
+                    style: pdflib.TextStyle(fontSize: sizeText))
               ]),
         ),
       if (e.nombre == "Ingresos no operacionales")
-        pdfLib.Column(children: [
+        pdflib.Column(children: [
           Container(
               color: PdfColors.grey300,
-              child: pdfLib.Row(
+              child: pdflib.Row(
                   mainAxisAlignment: MainAxisAlignment.spaceBetween,
                   children: [
                     Text("Utilidad en operación antes de ISR y PTU",
-                        style: pdfLib.TextStyle(
+                        style: pdflib.TextStyle(
                             fontSize: sizeText, fontWeight: FontWeight.bold)),
                     Text(obtenerSumatoriaSinISR(),
-                        style: pdfLib.TextStyle(fontSize: sizeText)),
+                        style: pdflib.TextStyle(fontSize: sizeText)),
                   ])),
-          pdfLib.Row(
+          pdflib.Row(
               mainAxisAlignment: MainAxisAlignment.spaceBetween,
               children: [
                 Text("Impuesto sobre renta(ISR) 28%",
-                    style: pdfLib.TextStyle(
+                    style: pdflib.TextStyle(
                         fontSize: sizeText, fontWeight: FontWeight.normal)),
                 Text(obtenerSumatoriaISR(),
-                    style: pdfLib.TextStyle(fontSize: sizeText)),
+                    style: pdflib.TextStyle(fontSize: sizeText)),
               ]),
           Container(
             color: PdfColors.grey300,
-            child: pdfLib.Row(
+            child: pdflib.Row(
                 mainAxisAlignment: MainAxisAlignment.spaceBetween,
                 children: [
                   Text("Utilidad neta",
-                      style: pdfLib.TextStyle(
+                      style: pdflib.TextStyle(
                           fontSize: sizeText, fontWeight: FontWeight.bold)),
                   Text(obtenerNeta(),
-                      style: pdfLib.TextStyle(fontSize: sizeText)),
+                      style: pdflib.TextStyle(fontSize: sizeText)),
                 ]),
           )
         ])
@@ -234,65 +235,64 @@ List<Widget> lineas() {
 }
 
 Future<void> generarPdf() async {
-  final pdf = pdfLib.Document();
+  final pdf = pdflib.Document();
 
   // Agregar un título centrado en la parte superior
-  pdf.addPage(pdfLib.Page(
+  pdf.addPage(pdflib.Page(
       margin: const EdgeInsets.fromLTRB(100, 10, 100, 10),
       orientation: PageOrientation.portrait,
       build: (context) {
-        return pdfLib.Column(
-            mainAxisAlignment: pdfLib.MainAxisAlignment.start,
+        return pdflib.Column(
+            mainAxisAlignment: pdflib.MainAxisAlignment.start,
             children: [
               //Nombre empresa
-              pdfLib.Center(
-                child: pdfLib.Text(
+              pdflib.Center(
+                child: pdflib.Text(
                   controllerEmpresa.text.toUpperCase(),
-                  style: pdfLib.TextStyle(
+                  style: pdflib.TextStyle(
                     fontSize: sizeTitulo,
-                    fontWeight: pdfLib.FontWeight.bold,
+                    fontWeight: pdflib.FontWeight.bold,
                   ),
                 ),
               ),
-              pdfLib.SizedBox(height: 5),
+              pdflib.SizedBox(height: 5),
               //Nit
-              pdfLib.Center(
-                child: pdfLib.Text(
+              pdflib.Center(
+                child: pdflib.Text(
                   'NIT :${controllerNit.text}',
-                  style: pdfLib.TextStyle(
+                  style: pdflib.TextStyle(
                     fontSize: sizeTitulo,
-                    fontWeight: pdfLib.FontWeight.bold,
+                    fontWeight: pdflib.FontWeight.bold,
                   ),
                 ),
               ),
-              pdfLib.SizedBox(height: 5),
+              pdflib.SizedBox(height: 5),
               //Fecha
-              pdfLib.Center(
-                child: pdfLib.Text(
+              pdflib.Center(
+                child: pdflib.Text(
                   textAlign: TextAlign.center,
                   'ESTADO DE RESULTADOS DE ${controllerFechaDesde.text} A ${controllerFechaHasta.text}',
-                  style: pdfLib.TextStyle(
+                  style: pdflib.TextStyle(
                     fontSize: sizeTitulo,
-                    fontWeight: pdfLib.FontWeight.bold,
+                    fontWeight: pdflib.FontWeight.bold,
                   ),
                 ),
               ),
-              pdfLib.SizedBox(height: 20),
+              pdflib.SizedBox(height: 20),
 
-              pdfLib.Column(children: lineas()),
+              pdflib.Column(children: lineas()),
 
-              pdfLib.Row(
+              pdflib.Row(
                   mainAxisAlignment: MainAxisAlignment.spaceAround,
                   children: [
                     Text("Elaboró: ${controllerElaboro.text}",
-                        style: pdfLib.TextStyle(fontSize: sizeText)),
+                        style: pdflib.TextStyle(fontSize: sizeText)),
                     Text("Autorizó: ${controllerAutorizo.text}",
-                        style: pdfLib.TextStyle(fontSize: sizeText)),
+                        style: pdflib.TextStyle(fontSize: sizeText)),
                   ]),
                   SizedBox(height: 10),
             ]);
       }));
-
   // Escribir el archivo de PDF en disco
   
   final pdfFile = File(filePath);
@@ -305,7 +305,7 @@ Future<void> crearArchivo() async{
   // Escribir el archivo de PDF en disco
   final Directory appDocDirectory = await getApplicationDocumentsDirectory();
 
-  final pdf = pdfLib.Document();
+  final pdf = pdflib.Document();
 
   final String pdfFilePath = '${appDocDirectory.path}/${controllerFechaDesde.text.trim()} - ${controllerFechaHasta.text.trim()}.pdf';
   filePath = pdfFilePath;

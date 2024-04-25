@@ -1,8 +1,5 @@
 import 'package:flutter/material.dart';
 
-//AGREGAR DESDE - HASTA EN CALENDARIO
-//VER EL ULTIMO ITEM DEL INPUESTO
-//INVENTARIO FINAL DE MERCANCIAS
 bool animacionBoton = false;
 int animacionBotonInterfas = 0;
 int animacionBotonCard = 0;
